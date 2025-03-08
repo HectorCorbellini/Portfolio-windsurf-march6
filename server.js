@@ -1,63 +1,95 @@
+/**
+ * Portfolio Website Server
+ * This is a simple HTTP server that serves static files for the portfolio website.
+ * It handles basic routing and mime-type detection for various file types.
+ */
+
 const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const { ErrorTypes, AppError, logError, createErrorResponse } = require('./utils/errorHandler');
+const MiddlewareManager = require('./middleware/middlewareManager');
+const { requestLogger, corsMiddleware, securityMiddleware } = require('./middleware/common');
+const apiHandler = require('./middleware/apiHandler');
+const StaticHandler = require('./handlers/staticHandler');
+const PortManager = require('./utils/portManager');
 
-const PORT = process.env.PORT || 3001;
-
-const MIME_TYPES = {
-    '.html': 'text/html',
-    '.css': 'text/css',
-    '.js': 'text/javascript',
-    '.json': 'application/json',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
-    '.ico': 'image/x-icon',
-};
-
-const server = http.createServer((req, res) => {
-    console.log(`Request for ${req.url}`);
-    
-    // Normalize the URL
-    let filePath = '.' + req.url;
-    if (filePath === './') {
-        filePath = './index.html';
+class PortfolioServer {
+    constructor() {
+        this.middlewareManager = new MiddlewareManager();
+        this.staticHandler = new StaticHandler();
+        this.portManager = new PortManager(3000, 3010);
+        this.setupMiddleware();
     }
-    
-    // Get the file extension
-    const extname = path.extname(filePath);
-    let contentType = MIME_TYPES[extname] || 'application/octet-stream';
-    
-    // Read the file
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if (error.code === 'ENOENT') {
-                // Page not found
-                fs.readFile('./index.html', (err, content) => {
-                    if (err) {
-                        res.writeHead(500);
-                        res.end('Error loading index.html');
-                    } else {
-                        res.writeHead(200, { 'Content-Type': 'text/html' });
-                        res.end(content, 'utf-8');
-                    }
-                });
-            } else {
-                // Server error
-                res.writeHead(500);
-                res.end(`Server Error: ${error.code}`);
-            }
-        } else {
-            // Success
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
-        }
-    });
-});
 
-server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
-    console.log('Press Ctrl+C to stop the server');
-});
+    /**
+     * Set up middleware chain
+     */
+    setupMiddleware() {
+        this.middlewareManager.use(requestLogger);
+        this.middlewareManager.use(corsMiddleware);
+        this.middlewareManager.use(securityMiddleware);
+        this.middlewareManager.use(apiHandler); // Add API handler before static files
+        this.middlewareManager.use(async (req, res) => {
+            await this.staticHandler.handle(req, res);
+        });
+    }
+
+    /**
+     * Handle incoming requests
+     * @param {http.IncomingMessage} req - Request object
+     * @param {http.ServerResponse} res - Response object
+     */
+    async handleRequest(req, res) {
+        try {
+            // Execute middleware chain
+            await this.middlewareManager.execute(req, res);
+        } catch (error) {
+            this.handleError(res, error);
+        }
+    }
+
+    /**
+     * Handle errors
+     * @param {http.ServerResponse} res - Response object
+     * @param {Error} error - Error object
+     */
+    handleError(res, error) {
+        const appError = error instanceof AppError
+            ? error
+            : new AppError(ErrorTypes.SERVER_ERROR, 'Internal Server Error', error);
+        
+        logError(appError);
+        const { statusCode, headers, body } = createErrorResponse(appError);
+        res.writeHead(statusCode, headers);
+        res.end(JSON.stringify(body));
+    }
+
+    /**
+     * Start the server
+     * @returns {Promise<void>}
+     */
+    async start() {
+        try {
+            const port = await this.portManager.getNextAvailablePort();
+            const server = http.createServer(this.handleRequest.bind(this));
+            
+            server.listen(port, () => {
+                console.log(`Server is running on port ${port}`);
+                console.log(`Access the portfolio at http://localhost:${port}`);
+                console.log('Press Ctrl+C to stop the server');
+            });
+
+            // Handle server errors
+            server.on('error', (error) => {
+                console.error('Server error:', error);
+                process.exit(1);
+            });
+        } catch (error) {
+            console.error('Failed to start server:', error);
+            process.exit(1);
+        }
+    }
+}
+
+// Create and start server
+const server = new PortfolioServer();
+server.start();
