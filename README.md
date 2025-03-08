@@ -2,6 +2,15 @@
 
 A modern, responsive portfolio website built with Node.js and vanilla JavaScript, showcasing Java development projects and professional experience.
 
+## 👤 Author
+
+Hector Corbellini
+- Email: hector.corbellini@gmail.com
+- GitHub: [@HectorCorbellini](https://github.com/HectorCorbellini)
+- LinkedIn: [Hector Corbellini](https://linkedin.com/in/hectorcorbellini)
+
+**Note**: For project credentials and sensitive information, refer to `docs/CREDENTIALS.md` (not included in version control).
+
 ## 🚀 Features
 
 - **Modern Design**: Clean, responsive layout with smooth animations
@@ -171,12 +180,6 @@ DEBUG=true npm run dev
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👤 Author
-
-Your Name
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
 
 ## 🙏 Acknowledgments
 

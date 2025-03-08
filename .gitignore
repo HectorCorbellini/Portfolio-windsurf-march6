@@ -30,3 +30,6 @@ build/
 # Logs
 logs
 *.log
+
+# Project specific
+docs/CREDENTIALS.md
