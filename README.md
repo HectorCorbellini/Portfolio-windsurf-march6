@@ -9,7 +9,15 @@ HectorCorbellini
 - GitHub: [@HectorCorbellini](https://github.com/HectorCorbellini)
 - LinkedIn: [Hector Corbellini](https://linkedin.com/in/hectorcorbellini)
 
-**Note**: For project credentials and sensitive information, refer to `docs/CREDENTIALS.md` (not included in version control).
+## 🔐 GitHub Authentication
+
+This project uses GitHub Personal Access Token for authentication. The token is configured with full repository access and GitHub Copilot permissions. To set up:
+
+1. The token is stored securely in `docs/CREDENTIALS.md` (not in version control)
+2. Run `./scripts/setup_git_credentials.sh` to configure Git with the token
+3. Git operations will then work automatically without password prompts
+
+**Important**: Never commit the token to version control. The script handles token storage securely.
 
 ## 🚀 Features
 
