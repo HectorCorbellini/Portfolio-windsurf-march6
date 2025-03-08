@@ -4,7 +4,7 @@ A modern, responsive portfolio website built with Node.js and vanilla JavaScript
 
 ## 👤 Author
 
-Hector Corbellini
+HectorCorbellini
 - Email: hector.corbellini@gmail.com
 - GitHub: [@HectorCorbellini](https://github.com/HectorCorbellini)
 - LinkedIn: [Hector Corbellini](https://linkedin.com/in/hectorcorbellini)
