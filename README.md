@@ -3,6 +3,7 @@
 A clean, modern, and responsive portfolio website designed to showcase Java development skills, projects, and services. This portfolio features a minimalistic dark theme design optimized for both desktop and mobile devices.
 
 ## Table of Contents
+- [Getting Started](#getting-started)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
@@ -13,6 +14,95 @@ A clean, modern, and responsive portfolio website designed to showcase Java deve
 - [Browser Compatibility](#browser-compatibility)
 - [License](#license)
 - [Development Workflow](#development-workflow)
+
+## Getting Started
+
+### Which Code to Use
+
+This repository follows a simple and clear structure to help new developers get started quickly:
+
+1. **Main Branch (`master`)**
+   - ✅ This is the branch you should use
+   - Contains the stable, production-ready code
+   - Always up to date with the latest approved features
+   - Clone directly from master:
+     ```bash
+     git clone https://github.com/HectorCorbellini/Portfolio-windsurf-march6.git
+     cd Portfolio-windsurf-march6
+     ```
+
+2. **Other Branches**
+   - ⚠️ These branches are for development only
+   - Contains work in progress features
+   - May be unstable or incomplete
+   - Do not use these for deployment
+
+### Project Organization
+
+The project has a straightforward structure:
+
+```
+portfolio/
+├── index.html          # Main page
+├── js/
+│   └── main.js         # All JavaScript code
+├── css/
+│   └── styles.css      # All styles
+└── images/            # Project images
+```
+
+### Key Files to Know
+
+1. **`index.html`**: The main entry point
+   - Contains the page structure
+   - Links to all resources
+
+2. **`main.js`**: All interactive features
+   - Project data
+   - Card creation
+   - Event handlers
+
+3. **`styles.css`**: All styling
+   - Dark theme
+   - Responsive design
+   - Animations
+
+4. **`images/`**: Project images
+   - Store all project images here
+   - Reference as `/images/filename.jpg`
+   - Recommended size: 960x480px
+
+### Quick Start
+
+1. Clone the master branch:
+   ```bash
+   git clone https://github.com/HectorCorbellini/Portfolio-windsurf-march6.git
+   ```
+
+2. Run the startup script:
+   ```bash
+   ./start_portfolio.sh
+   ```
+
+3. Open in browser:
+   ```
+   http://localhost:3001
+   ```
+
+### Adding New Projects
+
+1. Add your project image to `/images/`
+2. Update `main.js` with your project:
+   ```javascript
+   {
+     title: "Your Project",
+     description: "Project description",
+     image: "/images/your-image.jpg",  // Must be in /images directory
+     tags: ["Your", "Tags"],
+     demoLink: "/your/demo/link",
+     codeLink: "https://github.com/your/repo"
+   }
+   ```
 
 ## Features
 
