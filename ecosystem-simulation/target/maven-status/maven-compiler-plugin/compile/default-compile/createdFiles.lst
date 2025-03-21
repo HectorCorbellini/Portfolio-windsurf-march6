@@ -1,0 +1,10 @@
+com/isla/ecosystem/grid/Grid.class
+com/isla/ecosystem/Main.class
+com/isla/ecosystem/entity/Plant.class
+com/isla/ecosystem/config/SimulationConfig.class
+com/isla/ecosystem/entity/Entity.class
+com/isla/ecosystem/entity/Animal.class
+com/isla/ecosystem/grid/Cell.class
+com/isla/ecosystem/core/SimulationController.class
+com/isla/ecosystem/core/StatisticsCollector.class
+com/isla/ecosystem/core/SimulationController$Position.class
