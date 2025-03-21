@@ -39,25 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Project data
     const codegymProjects = [
         {
-            title: "Task Manager",
-            description: "A Java-based task management application with priority scheduling and deadline tracking.",
-            image: "https://via.placeholder.com/300x200/333333/6200ea?text=Task+Manager",
-            tags: ["Java", "JavaFX", "SQLite"],
-            demoLink: "#",
-            codeLink: "#"
-        },
-        {
-            title: "Weather Forecast App",
-            description: "Application that fetches and displays weather data from multiple APIs with caching mechanism.",
-            image: "https://via.placeholder.com/300x200/333333/6200ea?text=Weather+App",
-            tags: ["Java", "Spring Boot", "REST API"],
-            demoLink: "#",
-            codeLink: "#"
+            title: "Caesar Cipher Encryption Tool",
+            description: "A Java-based file encryption/decryption application implementing the Caesar cipher method with a modern web interface.",
+            image: "/images/crypto.jpg",
+            tags: ["Java", "Cryptography", "Web UI"],
+            demoLink: "/projects/caesar-cipher/index.html",
+            codeLink: "https://github.com/HectorCorbellini/encryptor-windsurf"
         },
         {
             title: "Chat Application",
             description: "Real-time chat application with private messaging and group chat functionality.",
-            image: "https://via.placeholder.com/300x200/333333/6200ea?text=Chat+App",
+            image: "https://placehold.co/300x200/333333/6200ea?text=Chat+App",
             tags: ["Java", "WebSocket", "JavaScript"],
             demoLink: "#",
             codeLink: "#"
@@ -65,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "E-commerce Platform",
             description: "Full-featured e-commerce platform with product catalog, shopping cart, and payment processing.",
-            image: "https://via.placeholder.com/300x200/333333/6200ea?text=E-commerce",
+            image: "https://placehold.co/300x200/333333/6200ea?text=E-commerce",
             tags: ["Java", "Spring MVC", "Hibernate", "MySQL"],
             demoLink: "#",
             codeLink: "#"
@@ -76,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Banking System",
             description: "Secure banking application with transaction management and account services.",
-            image: "https://via.placeholder.com/300x200/333333/03dac6?text=Banking+System",
+            image: "https://placehold.co/300x200/333333/03dac6?text=Banking+System",
             tags: ["Java", "Spring Security", "PostgreSQL"],
             demoLink: "#",
             codeLink: "#"
@@ -84,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Inventory Management",
             description: "Enterprise inventory tracking system with barcode scanning and reporting features.",
-            image: "https://via.placeholder.com/300x200/333333/03dac6?text=Inventory+System",
+            image: "https://placehold.co/300x200/333333/03dac6?text=Inventory+System",
             tags: ["Java", "Spring Boot", "React", "MongoDB"],
             demoLink: "#",
             codeLink: "#"
@@ -92,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "CRM Solution",
             description: "Customer relationship management system with lead tracking and sales analytics.",
-            image: "https://via.placeholder.com/300x200/333333/03dac6?text=CRM+Solution",
+            image: "https://placehold.co/300x200/333333/03dac6?text=CRM+Solution",
             tags: ["Java", "Microservices", "Docker", "Kubernetes"],
             demoLink: "#",
             codeLink: "#"
@@ -103,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Eco Tracker",
             description: "Open-source application for tracking and reducing carbon footprint with community features.",
-            image: "https://via.placeholder.com/300x200/333333/00c853?text=Eco+Tracker",
+            image: "https://placehold.co/300x200/333333/00c853?text=Eco+Tracker",
             tags: ["Java", "Spring Boot", "Vue.js", "PostgreSQL"],
             demoLink: "#",
             codeLink: "#"
@@ -111,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Community Aid Platform",
             description: "Platform connecting volunteers with people in need during crisis situations.",
-            image: "https://via.placeholder.com/300x200/333333/00c853?text=Community+Aid",
+            image: "https://placehold.co/300x200/333333/00c853?text=Community+Aid",
             tags: ["Java", "Spring", "Angular", "Firebase"],
             demoLink: "#",
             codeLink: "#"
@@ -119,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             title: "Open Learning",
             description: "Educational platform providing free programming courses to underserved communities.",
-            image: "https://via.placeholder.com/300x200/333333/00c853?text=Open+Learning",
+            image: "https://placehold.co/300x200/333333/00c853?text=Open+Learning",
             tags: ["Java", "Spring Boot", "React", "MongoDB"],
             demoLink: "#",
             codeLink: "#"

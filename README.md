@@ -40,20 +40,21 @@ portfolio/
 ├── index.html          # Main HTML file with portfolio content
 ├── server.js           # Node.js server for local development
 ├── package.json        # Project dependencies and scripts
+├── start_portfolio.sh  # Quick start script for running the portfolio
+├── README.md          # Project documentation and setup guide
 ├── css/
 │   └── styles.css      # Main stylesheet with all styling
 ├── js/
 │   └── main.js         # JavaScript for interactive functionality
-└── assets/
-    └── images/         # Project images and profile photo
+└── images/             # Project images and profile photo
 ```
 
 ## Setup and Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd portfolio
+   git clone https://github.com/HectorCorbellini/Portfolio-windsurf-march6.git
+   cd Portfolio-windsurf-march6
    ```
 
 2. **Install dependencies**
@@ -76,6 +77,19 @@ portfolio/
    ```bash
    npm run dev
    ```
+
+6. **Quick Start Script**
+   A convenient startup script is provided to quickly run the portfolio:
+   ```bash
+   ./start_portfolio.sh
+   ```
+   This script will:
+   - Automatically navigate to the portfolio directory
+   - Check for npm installation
+   - Install missing dependencies if needed
+   - Start the server at http://localhost:3001
+   
+   You can copy this script to your desktop for easy access.
 
 ## Server Configuration
 
@@ -104,7 +118,7 @@ Edit the following sections in `index.html`:
 2. Modify the hero section content with your profession and location
 3. Edit the About Me section with your personal information
 4. Update the contact information and social media links
-5. Replace the profile image at `/assets/images/profile.png`
+5. Replace the profile image at `/images/profile.png`
 
 ### Projects
 
@@ -119,10 +133,26 @@ Each project object should include:
 {
   title: "Project Name",
   description: "Brief project description",
-  image: "/assets/images/project-image.jpg",
+  image: "/images/project-image.jpg",
   tags: ["Java", "Spring", "MySQL"],
   demoLink: "https://demo-link.com",
   codeLink: "https://github.com/username/repo"
+}
+```
+
+### Project Images
+
+1. Place all project images in the `/images` directory
+2. Reference images in `main.js` using the relative path `/images/filename.jpg`
+3. Recommended image dimensions: 960x480px (2:1 aspect ratio)
+4. Supported formats: JPG, PNG, WebP
+
+Example:
+```javascript
+{
+  title: "Caesar Cipher Encryption Tool",
+  image: "/images/crypto.jpg",
+  // ... other project details
 }
 ```
 
@@ -157,10 +187,11 @@ The color scheme can be modified in the `:root` section of `styles.css`. The cur
    ```
 
 2. **Images Not Displaying**
-   - Check file paths and extensions (use browser dev tools to see errors)
-   - Ensure image files exist in the correct location
-   - Verify file format matches extension (PNG files should have .png extension)
-   - Try using absolute paths starting with `/assets/...`
+   - Ensure images are placed in the `/images` directory
+   - Use the correct relative path starting with `/images/`
+   - Check file permissions (should be readable by the web server)
+   - Verify file format matches extension
+   - Check browser dev tools Network tab for 404 errors
 
 3. **CSS Not Applying**
    - Clear browser cache with hard refresh (Ctrl+F5)
@@ -185,7 +216,6 @@ This portfolio is designed to work on all modern browsers including:
 This project is available under the MIT License. See the LICENSE file for details.
 
 ---
-
 Created by Héctor Corbellini for showcasing Java development skills and services.
 
 Last updated: March 2025
