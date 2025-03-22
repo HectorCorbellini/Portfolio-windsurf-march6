@@ -236,17 +236,35 @@ This portfolio is designed to work on all modern browsers including:
 
 ## Recent Improvements
 
+### Project Overview Buttons
+- Added Overview buttons for both the Ecosystem Simulation and Caesar Cipher Encryption Tool projects
+- Each Overview button displays a detailed modal with project information including:
+  - Project description and purpose
+  - Key features and functionality
+  - Technologies used in development
+  - Usage instructions
+
 ### Code Refactoring
-- The codebase has been refactored to improve organization and reduce redundancy. Utility functions have been created for modal and notification handling.
+- The codebase has been refactored to improve organization and reduce redundancy
+- Created utility functions for modal and notification handling
+- Extracted HTML generation into separate functions for better maintainability
+- Implemented DOM manipulation instead of string template literals for improved security and readability
 
 ### Standardized Image Paths
-- All project images now use standardized relative paths from the `/images` directory instead of placeholder URLs.
+- All project images now use standardized relative paths from the `/images` directory
+- Images are properly stored in a dedicated directory structure
+- Consistent path references across the codebase
 
 ### Enhanced Error Handling
-- Improved error handling in the server to provide better logging and structured error responses for API endpoints.
+- Improved error handling in the server with proper HTTP status codes
+- Added structured error responses for API endpoints
+- Implemented a robust logging system with timestamps and contextual information
+- Added graceful handling for common errors like port conflicts
 
 ### Updated Project Structure
-- The project structure has been updated to reflect the new organization, including the addition of images in the `/images` directory.
+- The project structure has been updated to reflect the new organization
+- Better separation of concerns between components
+- Improved file organization for easier maintenance
 
 ## License
 
