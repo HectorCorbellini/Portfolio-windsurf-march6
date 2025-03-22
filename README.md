@@ -132,7 +132,10 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Commit your changes
+5. Push to the branch
+6. Create a pull request for your changes:
+   - Visit the following link to create a pull request: [Create a Pull Request](https://github.com/HectorCorbellini/Portfolio-windsurf-march6/pull/new/ecosystem-simulation-clean-code)
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
