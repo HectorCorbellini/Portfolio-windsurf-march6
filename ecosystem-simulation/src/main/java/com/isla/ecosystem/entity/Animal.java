@@ -14,7 +14,7 @@ public class Animal extends Entity {
 
     @Override
     protected int getMaxEnergy() {
-        return SimulationConfig.MAX_ANIMAL_ENERGY;
+        return SimulationConfig.getMaxAnimalEnergy();
     }
 
     /**
@@ -22,8 +22,8 @@ public class Animal extends Entity {
      * @param plant The plant to eat
      */
     public void eat(Plant plant) {
-        addEnergy(SimulationConfig.ENERGY_TRANSFER);
-        plant.reduceEnergy(SimulationConfig.ENERGY_TRANSFER);
+        addEnergy(SimulationConfig.getEnergyTransfer());
+        plant.reduceEnergy(SimulationConfig.getEnergyTransfer());
     }
 
     /**
@@ -34,7 +34,7 @@ public class Animal extends Entity {
      * @return A new Animal instance
      */
     public Animal reproduce(int x, int y, char symbol) {
-        reduceEnergy(SimulationConfig.ENERGY_TRANSFER); // Reproduction costs energy
+        reduceEnergy(SimulationConfig.getEnergyTransfer()); // Reproduction costs energy
         return new Animal(x, y, symbol);
     }
 }

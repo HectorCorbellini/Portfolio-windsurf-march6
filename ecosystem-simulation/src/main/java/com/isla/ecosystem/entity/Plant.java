@@ -15,6 +15,6 @@ public class Plant extends Entity {
 
     @Override
     protected int getMaxEnergy() {
-        return SimulationConfig.MAX_PLANT_ENERGY;
+        return SimulationConfig.getMaxPlantEnergy();
     }
 }

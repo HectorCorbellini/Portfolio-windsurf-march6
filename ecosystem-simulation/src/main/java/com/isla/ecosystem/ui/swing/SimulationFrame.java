@@ -2,6 +2,7 @@ package com.isla.ecosystem.ui.swing;
 
 import com.isla.ecosystem.config.SimulationConfig;
 import com.isla.ecosystem.core.SimulationController;
+import com.isla.ecosystem.ui.swing.ConfigurationPanel.ConfigurationChangeListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Main frame for the ecosystem simulation UI
  */
-public class SimulationFrame extends JFrame {
+public class SimulationFrame extends JFrame implements ConfigurationChangeListener {
     private final SimulationPanel simulationPanel;
+    private final ConfigurationPanel configurationPanel;
     private final JButton startButton;
     private final JButton pauseButton;
     private final JButton stopButton;
@@ -31,6 +33,8 @@ public class SimulationFrame extends JFrame {
         
         // Create UI components
         simulationPanel = new SimulationPanel();
+        configurationPanel = new ConfigurationPanel();
+        configurationPanel.setConfigurationChangeListener(this);
         startButton = new JButton("Start");
         pauseButton = new JButton("Pause");
         stopButton = new JButton("Stop");
@@ -60,9 +64,14 @@ public class SimulationFrame extends JFrame {
         bottomPanel.add(controlPanel, BorderLayout.WEST);
         bottomPanel.add(statisticsLabel, BorderLayout.EAST);
         
+        // Create a south panel with configuration panel
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(bottomPanel, BorderLayout.NORTH);
+        southPanel.add(configurationPanel, BorderLayout.CENTER);
+        
         setLayout(new BorderLayout());
         add(simulationPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(southPanel, BorderLayout.SOUTH);
         
         // Event handlers
         startButton.addActionListener(e -> startSimulation());
@@ -109,6 +118,7 @@ public class SimulationFrame extends JFrame {
         stopButton.setEnabled(true);
         resetButton.setEnabled(false);
         neighborhoodButton.setEnabled(false);
+        configurationPanel.setEnabled(false);
         
         // Start simulation in a separate thread
         simulationThread = new Thread(() -> {
@@ -210,6 +220,7 @@ public class SimulationFrame extends JFrame {
         stopButton.setEnabled(false);
         resetButton.setEnabled(false);
         neighborhoodButton.setEnabled(true);
+        configurationPanel.setEnabled(true);
         statusLabel.setText("Ready");
         
         updateUI();
@@ -236,10 +247,28 @@ public class SimulationFrame extends JFrame {
             );
             
             statisticsLabel.setText(String.format(
-                "Births: %d | Deaths: %d", 
+                "Births: %d | Deaths: %d | Neighborhood: %s", 
                 controller.getBirths(), 
-                controller.getDeaths()
+                controller.getDeaths(),
+                controller.getNeighborhoodType()
             ));
+        }
+    }
+    
+    /**
+     * Handle configuration parameter changes
+     */
+    @Override
+    public void onConfigurationChanged(String paramName, int value) {
+        // When configuration changes, update the UI to reflect
+        // If the simulation is running, changes will apply in the next cycle
+        updateUI();
+        
+        if ("resetToDefaults".equals(paramName)) {
+            if (!running.get()) {
+                // If not running, reset the simulation with new defaults
+                resetSimulation();
+            }
         }
     }
 }

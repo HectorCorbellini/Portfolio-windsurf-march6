@@ -103,7 +103,7 @@ public class SimulationController {
             moveAnimal(animal);
             
             // Reproduction check
-            if (animal.canReproduce() && animal.getEnergy() > SimulationConfig.ENERGY_TRANSFER) {
+            if (animal.canReproduce() && animal.getEnergy() > SimulationConfig.getEnergyTransfer()) {
                 tryReproduceAnimal(animal);
             }
         }

@@ -1,8 +1,13 @@
 com/isla/ecosystem/grid/Grid.class
 com/isla/ecosystem/Main.class
+com/isla/ecosystem/ui/swing/SimulationPanel.class
+com/isla/ecosystem/ui/swing/ConfigurationPanel$ConfigurationChangeListener.class
+com/isla/ecosystem/ui/swing/ConfigurationPanel.class
 com/isla/ecosystem/entity/Plant.class
+com/isla/ecosystem/config/SimulationConfig$NeighborhoodType.class
 com/isla/ecosystem/config/SimulationConfig.class
 com/isla/ecosystem/entity/Entity.class
+com/isla/ecosystem/ui/swing/SimulationFrame.class
 com/isla/ecosystem/entity/Animal.class
 com/isla/ecosystem/grid/Cell.class
 com/isla/ecosystem/core/SimulationController.class

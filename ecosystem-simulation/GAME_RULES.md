@@ -84,13 +84,22 @@
 - **Reset**: Return to initial state
 - **Neighborhood**: Toggle between Von Neumann and Moore patterns
 
-### 5.2 Grid Display
+### 5.2 Configuration Panel
+- **Initial Energy**: Starting energy for all entities (5-20)
+- **Max Animal Energy**: Maximum energy capacity for animals (5-30)
+- **Max Plant Energy**: Maximum energy capacity for plants (5-30)
+- **Energy Transfer**: Energy gained/lost during eating/reproduction (1-10)
+- **Reproductive Age**: Minimum age for reproduction (1-5)
+- **Max Age**: Maximum lifespan of entities (3-20)
+- **Reset to Defaults**: Restore all parameters to default values
+
+### 5.3 Grid Display
 - Empty cells: '.'
 - Single entity: Entity's symbol
 - 2-4 entities: Number of entities
 - More than 4: '?'
 
-### 5.3 Statistics Tracking
+### 5.4 Statistics Tracking
 - Time step
 - Animal count
 - Plant count

@@ -15,6 +15,12 @@ This project simulates an ecosystem with animals and plants, allowing users to v
   - Stop current run
   - Reset to initial state
   - Toggle between neighborhood types
+- **Configurable Parameters**:
+  - Initial energy levels
+  - Maximum energy capacities
+  - Energy transfer rates
+  - Reproductive age thresholds
+  - Maximum lifespan
 - **Real-time Statistics**: Tracks and displays:
   - Births and deaths
   - Current population counts
@@ -38,6 +44,7 @@ This project simulates an ecosystem with animals and plants, allowing users to v
   - **ui/swing/**
     - `SimulationFrame.java`: Main UI window and controls
     - `SimulationPanel.java`: Grid visualization
+    - `ConfigurationPanel.java`: Parameter adjustment controls
 
 ## Requirements
 - Java Development Kit (JDK) 17 or higher
@@ -66,6 +73,7 @@ This project simulates an ecosystem with animals and plants, allowing users to v
    - **Stop**: End current simulation run
    - **Reset**: Return to initial state
    - **Neighborhood**: Toggle between movement patterns
+   - **Configuration Sliders**: Adjust ecosystem parameters to find a stable balance
 
 3. **Monitoring**:
    - Watch entity interactions in the grid
@@ -74,7 +82,8 @@ This project simulates an ecosystem with animals and plants, allowing users to v
 
 ## Technical Details
 - Thread-safe implementation for concurrent entity processing
-- Configurable simulation parameters via `SimulationConfig`
+- Runtime-configurable simulation parameters via sliders
+- Parameter validation with min/max constraints
 - Error handling for invalid positions and states
 - Memory-efficient cell management using `CopyOnWriteArrayList`
 

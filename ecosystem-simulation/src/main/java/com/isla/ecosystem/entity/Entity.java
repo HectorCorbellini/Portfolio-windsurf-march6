@@ -16,7 +16,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.symbol = symbol;
-        this.energy = SimulationConfig.INITIAL_ENERGY;
+        this.energy = SimulationConfig.getInitialEnergy();
         this.age = 0;
     }
 
@@ -61,11 +61,11 @@ public abstract class Entity {
     }
 
     public boolean isDead() {
-        return energy <= 0 || age >= SimulationConfig.MAX_AGE;
+        return energy <= 0 || age >= SimulationConfig.getMaxAge();
     }
 
     public boolean canReproduce() {
-        return age >= SimulationConfig.REPRODUCTIVE_AGE;
+        return age >= SimulationConfig.getReproductiveAge();
     }
 
     protected abstract int getMaxEnergy();
