@@ -1,0 +1,12 @@
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/ui/swing/ConfigurationPanel.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/core/StatisticsCollector.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/core/SimulationController.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/entity/Animal.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/ui/swing/SimulationFrame.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/config/SimulationConfig.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/entity/Plant.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/ui/swing/SimulationPanel.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/grid/Grid.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/grid/Cell.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/entity/Entity.java
+/root/CascadeProjects/ISLA/ecosystem-simulation-/src/main/java/com/isla/ecosystem/Main.java
