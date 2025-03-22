@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+
+# Get the command from command line arguments
+set command [lrange $argv 0 end]
+
+# Spawn the sudo command
+spawn sudo {*}$command
+
+# Look for the password prompt
+expect {
+    "password for" {
+        send "placita\r"
+        exp_continue
+    }
+    eof
+}
+
+# Wait for the command to complete
+catch wait result
