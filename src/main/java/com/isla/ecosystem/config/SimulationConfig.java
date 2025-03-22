@@ -19,9 +19,15 @@ public class SimulationConfig {
     public static final int GRID_HEIGHT = 10;
     public static final int MAX_GRID_SIZE = 1000;
 
-    // Initial populations (non-configurable after startup)
-    public static final int INITIAL_ANIMAL_COUNT = 3;
-    public static final int INITIAL_PLANT_COUNT = 5;
+    // Initial populations (now configurable)
+    private static int initialAnimalCount = 6;
+    private static int initialPlantCount = 10;
+    
+    // Ranges for initial populations
+    public static final int MIN_ANIMAL_COUNT = 1;
+    public static final int MAX_ANIMAL_COUNT = 20;
+    public static final int MIN_PLANT_COUNT = 1;
+    public static final int MAX_PLANT_COUNT = 30;
 
     // Default values for configurable parameters
     private static final int DEFAULT_INITIAL_ENERGY = 10;
@@ -82,7 +88,27 @@ public class SimulationConfig {
         }
     }
     
-    // Getters for configurable parameters
+    // Getters and setters for configurable parameters
+    public static int getInitialAnimalCount() {
+        return initialAnimalCount;
+    }
+    
+    public static void setInitialAnimalCount(int count) {
+        if (validateParameter(count, MIN_ANIMAL_COUNT, MAX_ANIMAL_COUNT, "Initial animal count")) {
+            initialAnimalCount = count;
+        }
+    }
+    
+    public static int getInitialPlantCount() {
+        return initialPlantCount;
+    }
+    
+    public static void setInitialPlantCount(int count) {
+        if (validateParameter(count, MIN_PLANT_COUNT, MAX_PLANT_COUNT, "Initial plant count")) {
+            initialPlantCount = count;
+        }
+    }
+    
     public static int getInitialEnergy() {
         return initialEnergy;
     }
@@ -107,58 +133,51 @@ public class SimulationConfig {
         return maxAge;
     }
     
+    // Helper method for parameter validation
+    private static boolean validateParameter(int value, int min, int max, String paramName) {
+        if (value >= min && value <= max) {
+            logger.info("{} set to: {}", paramName, value);
+            return true;
+        } else {
+            logger.warn("Invalid {} value: {}", paramName, value);
+            return false;
+        }
+    }
+    
     // Setters for configurable parameters with validation
     public static void setInitialEnergy(int value) {
-        if (value >= MIN_INITIAL_ENERGY && value <= MAX_INITIAL_ENERGY) {
+        if (validateParameter(value, MIN_INITIAL_ENERGY, MAX_INITIAL_ENERGY, "Initial energy")) {
             initialEnergy = value;
-            logger.info("Initial energy set to: {}", value);
-        } else {
-            logger.warn("Invalid initial energy value: {}", value);
         }
     }
     
     public static void setMaxAnimalEnergy(int value) {
-        if (value >= MIN_MAX_ANIMAL_ENERGY && value <= MAX_MAX_ANIMAL_ENERGY) {
+        if (validateParameter(value, MIN_MAX_ANIMAL_ENERGY, MAX_MAX_ANIMAL_ENERGY, "Max animal energy")) {
             maxAnimalEnergy = value;
-            logger.info("Max animal energy set to: {}", value);
-        } else {
-            logger.warn("Invalid max animal energy value: {}", value);
         }
     }
     
     public static void setMaxPlantEnergy(int value) {
-        if (value >= MIN_MAX_PLANT_ENERGY && value <= MAX_MAX_PLANT_ENERGY) {
+        if (validateParameter(value, MIN_MAX_PLANT_ENERGY, MAX_MAX_PLANT_ENERGY, "Max plant energy")) {
             maxPlantEnergy = value;
-            logger.info("Max plant energy set to: {}", value);
-        } else {
-            logger.warn("Invalid max plant energy value: {}", value);
         }
     }
     
     public static void setEnergyTransfer(int value) {
-        if (value >= MIN_ENERGY_TRANSFER && value <= MAX_ENERGY_TRANSFER) {
+        if (validateParameter(value, MIN_ENERGY_TRANSFER, MAX_ENERGY_TRANSFER, "Energy transfer")) {
             energyTransfer = value;
-            logger.info("Energy transfer set to: {}", value);
-        } else {
-            logger.warn("Invalid energy transfer value: {}", value);
         }
     }
     
     public static void setReproductiveAge(int value) {
-        if (value >= MIN_REPRODUCTIVE_AGE && value <= MAX_REPRODUCTIVE_AGE) {
+        if (validateParameter(value, MIN_REPRODUCTIVE_AGE, MAX_REPRODUCTIVE_AGE, "Reproductive age")) {
             reproductiveAge = value;
-            logger.info("Reproductive age set to: {}", value);
-        } else {
-            logger.warn("Invalid reproductive age value: {}", value);
         }
     }
     
     public static void setMaxAge(int value) {
-        if (value >= MIN_MAX_AGE && value <= MAX_MAX_AGE) {
+        if (validateParameter(value, MIN_MAX_AGE, MAX_MAX_AGE, "Max age")) {
             maxAge = value;
-            logger.info("Max age set to: {}", value);
-        } else {
-            logger.warn("Invalid max age value: {}", value);
         }
     }
     

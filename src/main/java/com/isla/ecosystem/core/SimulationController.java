@@ -45,26 +45,28 @@ public class SimulationController {
      */
     public void initialize() {
         logger.info("Initializing simulation...");
-        initializeEntities();
+        int animals = SimulationConfig.getInitialAnimalCount();
+        int plants = SimulationConfig.getInitialPlantCount();
+        initializeEntities(animals, plants);
         isRunning = true;
         logger.info("Simulation initialized with {} animals and {} plants",
-            animals.size(), plants.size());
+            animals, plants);
     }
 
-    private void initializeEntities() {
+    private void initializeEntities(int animals, int plants) {
         // Initialize animals
-        for (int i = 0; i < SimulationConfig.INITIAL_ANIMAL_COUNT; i++) {
+        for (int i = 0; i < animals; i++) {
             Position pos = findRandomEmptyPosition();
             Animal animal = new Animal(pos.x(), pos.y());
-            animals.add(animal);
+            this.animals.add(animal);
             grid.addEntity(animal, pos.x(), pos.y());
         }
 
         // Initialize plants
-        for (int i = 0; i < SimulationConfig.INITIAL_PLANT_COUNT; i++) {
+        for (int i = 0; i < plants; i++) {
             Position pos = findRandomEmptyPosition();
             Plant plant = new Plant(pos.x(), pos.y());
-            plants.add(plant);
+            this.plants.add(plant);
             grid.addEntity(plant, pos.x(), pos.y());
         }
     }
@@ -80,7 +82,20 @@ public class SimulationController {
 
         logger.debug("Executing cycle {}", currentCycle.get());
         
-        // Process animals
+        processAnimals();
+        processPlants();
+
+        // Update statistics
+        stats.updateStats(currentCycle.get(), animals.size(), plants.size());
+        
+        // Check if ecosystem is balanced
+        boolean isBalanced = checkEcosystemBalance();
+        
+        currentCycle.incrementAndGet();
+        return isBalanced;
+    }
+    
+    private void processAnimals() {
         List<Animal> animalsCopy = new ArrayList<>(animals);
         Collections.shuffle(animalsCopy); // Randomize movement order
         
@@ -105,8 +120,9 @@ public class SimulationController {
                 tryReproduceAnimal(animal);
             }
         }
-
-        // Process plants
+    }
+    
+    private void processPlants() {
         List<Plant> plantsCopy = new ArrayList<>(plants);
         for (Plant plant : plantsCopy) {
             if (!plants.contains(plant)) continue; // Skip if plant was removed
@@ -120,20 +136,10 @@ public class SimulationController {
                 continue;
             }
         }
-
-        // Update statistics
-        stats.updateStats(currentCycle.get(), animals.size(), plants.size());
-        
-        // Check if ecosystem is balanced
-        boolean isBalanced = checkEcosystemBalance();
-        
-        currentCycle.incrementAndGet();
-        return isBalanced;
     }
 
     private void moveAnimal(Animal animal) {
-        List<Cell> neighbors = grid.getNeighbors(animal.getX(), animal.getY(), neighborhoodType);
-        Collections.shuffle(neighbors); // Randomize movement order
+        List<Cell> neighbors = getShuffledNeighbors(animal.getX(), animal.getY());
         
         // First, look for plants to eat
         for (Cell cell : neighbors) {
@@ -157,6 +163,12 @@ public class SimulationController {
                 targetCell.getX(), targetCell.getY());
         }
     }
+    
+    private List<Cell> getShuffledNeighbors(int x, int y) {
+        List<Cell> neighbors = grid.getNeighbors(x, y, neighborhoodType);
+        Collections.shuffle(neighbors); // Randomize order
+        return neighbors;
+    }
 
     public void setNeighborhoodType(SimulationConfig.NeighborhoodType type) {
         this.neighborhoodType = type;
@@ -168,35 +180,36 @@ public class SimulationController {
     }
 
     private void tryReproduceAnimal(Animal animal) {
-        List<Cell> neighbors = grid.getNeighbors(animal.getX(), animal.getY(), neighborhoodType);
+        List<Cell> neighbors = getShuffledNeighbors(animal.getX(), animal.getY());
         
         // First check if there's another animal in a neighboring cell
-        boolean foundMate = false;
+        if (findMate(neighbors)) {
+            // Look for an empty cell to place the offspring
+            placeOffspring(animal, neighbors);
+        }
+    }
+    
+    private boolean findMate(List<Cell> neighbors) {
         for (Cell cell : neighbors) {
-            List<Entity> entities = cell.getEntities();
-            for (Entity entity : entities) {
-                if (entity instanceof Animal) {
-                    Animal mate = (Animal) entity;
-                    if (mate.canReproduce() && mate.getEnergy() > SimulationConfig.getEnergyTransfer()) {
-                        foundMate = true;
-                        break;
-                    }
+            for (Entity entity : cell.getEntities()) {
+                if (entity instanceof Animal mate && 
+                    mate.canReproduce() && 
+                    mate.getEnergy() > SimulationConfig.getEnergyTransfer()) {
+                    return true;
                 }
             }
-            if (foundMate) break;
         }
-        
-        // Only proceed with reproduction if we found a suitable mate
-        if (foundMate) {
-            // Look for an empty cell to place the offspring
-            for (Cell cell : neighbors) {
-                if (cell.isEmpty()) {
-                    Animal offspring = animal.reproduce(cell.getX(), cell.getY());
-                    animals.add(offspring);
-                    grid.addEntity(offspring, cell.getX(), cell.getY());
-                    stats.recordBirth();
-                    break;
-                }
+        return false;
+    }
+    
+    private void placeOffspring(Animal parent, List<Cell> neighbors) {
+        for (Cell cell : neighbors) {
+            if (cell.isEmpty()) {
+                Animal offspring = parent.reproduce(cell.getX(), cell.getY());
+                animals.add(offspring);
+                grid.addEntity(offspring, cell.getX(), cell.getY());
+                stats.recordBirth();
+                break;
             }
         }
     }

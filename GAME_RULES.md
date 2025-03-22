@@ -1,136 +1,159 @@
 # Ecosystem Simulation Game Rules
 
 ## 1. Environment
-- Grid-based 2D world (30x10 by default)
-- Each cell can contain multiple entities (shown as numbers 2,3,4 or ? for more)
-- Empty cells are represented by '.' (or empty space when visualized)
+- Grid-based 2D world with scrollable view
+- Color-coded cells for different entity types:
+  - Gray: Empty cells
+  - Blue: Cells with animals
+  - Green: Cells with plants
+  - Orange: Cells with both animals and plants
+- Multiple entities per cell supported (shown as numbers)
+- Anti-aliased graphics for smooth visualization
 
-## 2. Entities
+## 2. Entity Types
 
 ### 2.1 Animals
-- Represented by letters starting from 'A'
-- Initial population: 3
+- Represented by blue circles
 - Can move to adjacent cells
 - Have energy and age attributes
 - Can eat plants to gain energy
-- **Duration**: Animals have a maximum age of 8 cycles and die if they reach this age or if their energy depletes.
-- **Eating**: Animals gain 3 energy units when eating a plant.
-- **Reproduction**: Animals can reproduce when they reach reproductive age (1 cycle) if they meet another animal in an adjacent cell.
+- **Attributes**:
+  - Initial energy: Configurable (5-20)
+  - Maximum energy: Configurable (5-30)
+  - Maximum age: Configurable (3-20)
+  - Reproductive age: Configurable (1-5)
+- **Behavior**:
+  - Move randomly to adjacent cells
+  - Consume plants for energy
+  - Reproduce when conditions are met
+  - Die when energy depletes or max age reached
 
 ### 2.2 Plants
-- Represented by letters starting from 'o'
-- Initial population: 5
+- Represented by green asterisks
 - Static (don't move)
-- Have energy attributes
-- Can be eaten by animals
-- **Duration**: Plants can be eaten by animals, which reduces their population.
-- **Reproduction**: Plants do not reproduce. Their population only changes when they are eaten by animals.
+- Serve as food source for animals
+- **Attributes**:
+  - Initial energy: Configurable (5-20)
+  - Maximum energy: Configurable (5-30)
+  - Maximum age: Configurable (3-20)
+- **Behavior**:
+  - Remain in place
+  - Can be consumed by animals
+  - Die when energy depletes or max age reached
 
 ## 3. Game Mechanics
 
-### 3.1 Energy System
-- Initial energy for all entities: 10
-- Maximum energy for animals: Initial + 1
-- Maximum energy for plants: Initial + 4
-- Energy transfer during animal-plant interaction: 3 units
+### 3.1 Movement System
+- Two neighborhood types:
+  - **Von Neumann**: 4 adjacent cells (N, S, E, W)
+  - **Moore**: 8 adjacent cells (includes diagonals)
+- Toggle between types during setup
+- Animals move one cell per cycle
+- Random movement direction within neighborhood
 
-### 3.2 Life Cycle
-- Reproductive age: 1
-- Maximum age: 8
-- Entities die when reaching maximum age
-- Entities die when energy depletes
+### 3.2 Energy System
+- All entities start with configurable initial energy
+- Energy transfer during consumption is configurable
+- Maximum energy limits prevent overpowered entities
+- Energy depletion leads to death
 
-### 3.3 Movement
-- Configurable neighborhood types:
-  - **Von Neumann**: 4 adjacent cells (North, South, East, West)
-  - **Moore**: 8 adjacent cells (includes diagonal neighbors)
-- Animals can move one cell per turn
-- Movement order is randomized
-- Animals can't move to occupied cells
-- Neighborhood type affects both movement and reproduction
+### 3.3 Reproduction
+- Animals must reach reproductive age
+- Requires another animal in neighborhood
+- Energy cost for reproduction
+- Population limited by available space
 
-### 3.4 Reproduction
-- Entities must reach reproductive age
-- Requires available adjacent cell
-- New entities inherit parent's characteristics
-- Population limited by grid size
+## 4. User Interface
 
-### 3.5 Spawning Rules
-- Can use rectangular areas for spawning
-- Default spawn area: from (2,1) to (5,3)
-- Option to spawn in lines instead of rectangles
+### 4.1 Control Panel
+- **Population Controls**:
+  - "Animals" button: Set initial animal count
+  - "Plants" button: Set initial plant count
+  - Input validation with min/max limits
+  
+- **Simulation Controls**:
+  - Start/Pause/Resume button
+  - Stop button
+  - Reset button
+  - Neighborhood type toggle
+  - Show Stats button
 
-## 4. Simulation Parameters
+### 4.2 Configuration Panel
+- **Animal Parameters**:
+  - Initial Energy slider
+  - Maximum Energy slider
+  - Energy Transfer slider
+  - Reproductive Age slider
+  - Maximum Age slider
+  
+- **Plant Parameters**:
+  - Initial Energy slider
+  - Maximum Energy slider
+  - Maximum Age slider
+  
+- **Reset to Defaults** button
 
-### 4.1 Time Control
-- Maximum simulation duration: 30 cycles
-- Pause between cycles: 1000ms (1 second)
+### 4.3 Grid Display
+- Scrollable view for large grids
+- Color-coded cells for entity types
+- Entity count display for multiple entities
+- Smooth graphics with anti-aliasing
+- Real-time updates
 
-### 4.2 Grid Configuration
-- Width: 30 cells
-- Height: 10 cells
-- Maximum grid size: 1000x1000
+### 4.4 Statistics Display
+- Current cycle counter
+- Animal population counter
+- Plant population counter
+- Birth/Death statistics
+- CSV data export
 
-### 4.3 Population Limits
-- Total entities must not exceed grid size
-- Animal population limit: (Width × Height) - Plant count
+## 5. Data Collection
 
-## 5. Controls and Visualization
+### 5.1 Real-time Statistics
+- Population counts
+- Birth/Death events
+- Current cycle
+- Entity interactions
 
-### 5.1 Control Panel
-- **Start/Resume**: Begin simulation or continue from pause
-- **Pause**: Temporarily halt the simulation
-- **Stop**: End the current simulation run
-- **Reset**: Return to initial state
-- **Neighborhood**: Toggle between Von Neumann and Moore patterns
+### 5.2 CSV Export
+- File: `simulation_data/ecosystem_stats.csv`
+- Format: Cycle;Animals;Plants;Births;Deaths
+- View using "Show Stats" button
+- Data preserved between runs
 
-### 5.2 Configuration Panel
-- **Initial Energy**: Starting energy for all entities (5-20)
-- **Max Animal Energy**: Maximum energy capacity for animals (5-30)
-- **Max Plant Energy**: Maximum energy capacity for plants (5-30)
-- **Energy Transfer**: Energy gained/lost during eating/reproduction (1-10)
-- **Reproductive Age**: Minimum age for reproduction (1-5)
-- **Max Age**: Maximum lifespan of entities (3-20)
-- **Reset to Defaults**: Restore all parameters to default values
+## 6. Configuration Limits
 
-### 5.3 Grid Display
-- Empty cells: '.'
-- Single entity: Entity's symbol
-- 2-4 entities: Number of entities
-- More than 4: '?'
+### 6.1 Population
+- Minimum Animals: 1
+- Maximum Animals: Grid size - Plants
+- Minimum Plants: 1
+- Maximum Plants: Grid size - Animals
 
-### 5.4 Statistics Tracking
-- Time step
-- Animal count
-- Plant count
-- Birth count
-- Death count
-- Events (interactions)
-- Current neighborhood type
+### 6.2 Parameters
+- Initial Energy: 5-20
+- Maximum Energy: 5-30
+- Energy Transfer: 1-10
+- Reproductive Age: 1-5
+- Maximum Age: 3-20
 
-## 6. Termination Conditions
-- Maximum time reached (30 cycles)
-- Ecosystem becomes unbalanced:
-  - No life remaining
-  - Population exceeds grid capacity
+## 7. Technical Notes
 
-## 7. Data Output
-- **CSV Format**: The simulation outputs data in CSV format for analysis.
-- **Columns**:
-  - Time step
-  - Animal count
-  - Plant count
-  - Birth count
-  - Death count
-  - Events (interactions)
-- **File Location**: The CSV file is saved in the `simulation_data` directory with the name `ecosystem_stats.csv`.
-- **Creation Process**: The CSV file is created upon initializing the `StatisticsCollector` class, which writes the header row to the file. Each cycle, the statistics are appended to the CSV file, capturing the state of the ecosystem at each time step.
-- Real-time grid visualization
-- Event logging for interactions
-
-## 8. Technical Requirements
+### 7.1 Performance
 - Thread-safe implementation
-- Configurable parameters
-- Error handling for invalid positions
-- Memory-efficient cell management
-- Concurrent entity processing
+- Efficient grid rendering
+- Smooth UI updates
+- Memory-efficient entity management
+
+### 7.2 Error Handling
+- Input validation for all parameters
+- Graceful handling of invalid states
+- Clear error messages
+- Safe state recovery
+
+## 8. Tips for Success
+1. Balance initial populations
+2. Monitor energy transfer rates
+3. Adjust reproductive parameters
+4. Consider neighborhood type impact
+5. Use statistics for optimization
+6. Export data for analysis

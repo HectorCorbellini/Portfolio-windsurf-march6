@@ -21,6 +21,8 @@ public class SimulationFrame extends JFrame implements ConfigurationChangeListen
     private final JToggleButton neighborhoodButton;
     private final JLabel statusLabel;
     private final JLabel statisticsLabel;
+    private final JSpinner animalSpinner;
+    private final JSpinner plantSpinner;
     
     private SimulationController controller;
     private Thread simulationThread;
@@ -43,12 +45,31 @@ public class SimulationFrame extends JFrame implements ConfigurationChangeListen
         statusLabel = new JLabel("Ready");
         statisticsLabel = new JLabel("Births: 0 | Deaths: 0");
         
+        // Create spinners for initial counts
+        SpinnerNumberModel animalModel = new SpinnerNumberModel(
+            SimulationConfig.getInitialAnimalCount(),
+            SimulationConfig.MIN_ANIMAL_COUNT,
+            SimulationConfig.MAX_ANIMAL_COUNT,
+            1);
+        animalSpinner = new JSpinner(animalModel);
+        
+        SpinnerNumberModel plantModel = new SpinnerNumberModel(
+            SimulationConfig.getInitialPlantCount(),
+            SimulationConfig.MIN_PLANT_COUNT,
+            SimulationConfig.MAX_PLANT_COUNT,
+            1);
+        plantSpinner = new JSpinner(plantModel);
+        
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
         resetButton.setEnabled(false);
         
         // Configure neighborhood button
         neighborhoodButton.setToolTipText("Click to toggle between Von Neumann (4 neighbors) and Moore (8 neighbors) neighborhoods");
+        
+        // Create main simulation panel that includes both the grid and its controls
+        JPanel mainSimulationPanel = new JPanel(new BorderLayout(0, 10));
+        mainSimulationPanel.add(simulationPanel, BorderLayout.CENTER);
         
         // Layout
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
@@ -76,7 +97,7 @@ public class SimulationFrame extends JFrame implements ConfigurationChangeListen
         gbc.weighty = 0.7; // Simulation panel gets 70% of vertical space
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(simulationPanel, gbc);
+        add(mainSimulationPanel, gbc);
         
         gbc.weighty = 0.3; // Configuration panel gets 30% of vertical space
         gbc.gridx = 0;
@@ -104,6 +125,61 @@ public class SimulationFrame extends JFrame implements ConfigurationChangeListen
         
         // Ensure the frame is properly sized after initialization
         resetFrameSize();
+    }
+    
+    private void showChangeInitialsDialog() {
+        if (running.get()) return;
+        
+        // Create the dialog
+        JDialog dialog = new JDialog(this, "Change Initial Counts", true);
+        dialog.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        
+        // Animal count controls
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        dialog.add(new JLabel("Initial Animals:"), gbc);
+        
+        gbc.gridx = 1;
+        dialog.add(animalSpinner, gbc);
+        
+        // Plant count controls
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        dialog.add(new JLabel("Initial Plants:"), gbc);
+        
+        gbc.gridx = 1;
+        dialog.add(plantSpinner, gbc);
+        
+        // Buttons panel
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton okButton = new JButton("OK");
+        JButton cancelButton = new JButton("Cancel");
+        
+        okButton.addActionListener(e -> {
+            SimulationConfig.setInitialAnimalCount((Integer) animalSpinner.getValue());
+            SimulationConfig.setInitialPlantCount((Integer) plantSpinner.getValue());
+            dialog.dispose();
+            resetSimulation();
+        });
+        
+        cancelButton.addActionListener(e -> dialog.dispose());
+        
+        buttonsPanel.add(okButton);
+        buttonsPanel.add(cancelButton);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        dialog.add(buttonsPanel, gbc);
+        
+        // Configure dialog
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setResizable(false);
+        dialog.setVisible(true);
     }
     
     private void startSimulation() {

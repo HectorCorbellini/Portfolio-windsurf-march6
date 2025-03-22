@@ -1,140 +1,138 @@
 # Ecosystem Simulation
 
-**Repository**: [Portfolio-windsurf-march6](https://github.com/HectorCorbellini/Portfolio-windsurf-march6)
-
-## Repository Information
-For future commits, please upload to the following GitHub repository using a dedicated branch for the ecosystem simulation project:
-
-```
-# Set up the remote repository
-git remote add origin https://github.com/HectorCorbellini/Portfolio-windsurf-march6.git
-
-# Create a new branch for the ecosystem simulation project
-git checkout -b ecosystem-simulation-clean-code
-
-# Push to the new branch
-git push -u origin ecosystem-simulation-clean-code
-```
-
-This approach keeps the ecosystem simulation project in its own branch, separate from other projects in the repository.
+A Java-based ecosystem simulation that demonstrates the interactions between animals and plants in a grid environment. This project showcases clean code principles, object-oriented design, and modern Java practices.
 
 ## Overview
-This project simulates an ecosystem with animals and plants, allowing users to visualize interactions between different entities in a grid-based environment. The simulation is designed to demonstrate ecological concepts such as reproduction, energy consumption, and population dynamics.
+This project simulates an ecosystem with animals and plants, allowing users to visualize interactions between different entities in a grid-based environment. The simulation demonstrates ecological concepts such as reproduction, energy consumption, and population dynamics.
 
 ## Features
-- **Grid Visualization**: Displays the ecosystem in a 2D grid format using Swing UI.
-- **Entity Types**: Supports two main entity types: Animals and Plants.
-- **Interface-Based Design**: Uses interfaces (IEntity, IMovable, IReproducible) and an EntityType enum for better code organization and type safety.
-- **Flexible Movement Patterns**: 
-  - Von Neumann neighborhood (4 adjacent cells: N, S, E, W)
-  - Moore neighborhood (8 adjacent cells: N, S, E, W, NE, NW, SE, SW)
+- **Grid Visualization**: 
+  - Dynamic grid display with color-coded cells
+  - Blue circles for animals
+  - Green asterisks for plants
+  - Orange cells for mixed populations
+  - Entity count display for multiple entities
+  - Smooth graphics with anti-aliasing
+  
 - **Enhanced Controls**:
-  - Start/Resume simulation
-  - Pause for observation
+  - Intuitive control panel for population settings
+  - Start/Pause/Resume simulation
   - Stop current run
   - Reset to initial state
   - Toggle between neighborhood types
-- **Improved UI**:
-  - Separate panels for animal and plant parameters
-  - Scrollable configuration panel for small screens
-  - Click-to-reset view functionality
-  - Right-click panning for the simulation grid
-- **Configurable Parameters**:
-  - Initial energy levels
-  - Maximum energy capacities
-  - Energy transfer rates
-  - Reproductive age thresholds
-  - Maximum lifespan
-- **Real-time Statistics**: Tracks and displays:
-  - Births and deaths
-  - Current population counts
-  - Simulation cycle
+  - Real-time statistics display
+  
+- **Configuration Panel**:
+  - Separate sections for animal and plant parameters
+  - Adjustable sliders with immediate feedback
+  - Parameter validation and constraints
+  - Reset to defaults option
+  
+- **Statistics and Monitoring**:
+  - Real-time population tracking
+  - Birth and death counters
+  - CSV export for data analysis
+  - Cycle counter display
+  - Grid state visualization
 
-## Clean Code Principles
-This project implements several Clean Code principles to improve maintainability and extensibility:
+## New Features
+- **Change Initials Functionality**:
+  - Users can now modify the initial counts of animals and plants through a dedicated dialog.
+  - The dialog allows setting the initial population counts before starting the simulation.
 
-- **Interface-Based Design**: Entities follow a clear interface hierarchy with `IEntity` as the base interface, and specialized interfaces like `IMovable` and `IReproducible` for specific behaviors.
+## Clean Code Implementation
+The project follows clean code principles and SOLID design:
 
-- **Single Responsibility Principle**: Each class and interface has a well-defined responsibility. For example, movement logic is separated into the `IMovable` interface.
+1. **Single Responsibility Principle**:
+   - `GridPanel`: Handles only grid visualization
+   - `ControlPanel`: Manages UI controls
+   - `SimulationPanel`: Coordinates components
+   
+2. **Interface Segregation**:
+   - Clear separation between UI components
+   - Well-defined interfaces for entities
+   - Specialized behaviors through interfaces
+   
+3. **Component-Based Architecture**:
+   - Modular design with independent components
+   - Clear communication channels
+   - Easy to extend and modify
 
-- **Type Safety**: Uses an `EntityType` enum instead of character literals to represent different entity types, reducing errors and improving code readability.
-
-- **Separation of Concerns**: UI components are separated from simulation logic, and configuration is managed independently.
-
-- **Improved Encapsulation**: Entity behaviors are properly encapsulated within their respective classes and interfaces.
-
-## Structure
-- **src/main/java/com/isla/ecosystem/**
-  - `Main.java`: Application entry point
-  - **config/**
-    - `SimulationConfig.java`: Configuration parameters and constants
-  - **core/**
-    - `SimulationController.java`: Core simulation logic and lifecycle management
-    - `StatisticsCollector.java`: Tracks simulation statistics
-  - **entity/**
-    - `IEntity.java`: Interface defining common entity behavior
-    - `IMovable.java`: Interface for entities that can move
-    - `IReproducible.java`: Interface for entities that can reproduce
-    - `EntityType.java`: Enum representing different entity types
-    - `Entity.java`: Base class implementing the IEntity interface
-    - `Animal.java`: Animal behavior implementing IMovable and IReproducible
-    - `Plant.java`: Plant behavior implementing IEntity
-  - **grid/**
-    - `Grid.java`: Thread-safe grid environment
-    - `Cell.java`: Individual grid cell management
-  - **ui/swing/**
-    - `SimulationFrame.java`: Main UI window and controls
-    - `SimulationPanel.java`: Grid visualization
-    - `ConfigurationPanel.java`: Parameter adjustment controls
+## Project Structure
+```
+src/main/java/com/isla/ecosystem/
+├── Main.java                    # Application entry point
+├── config/
+│   └── SimulationConfig.java    # Configuration parameters
+├── core/
+│   ├── SimulationController.java # Core simulation logic
+│   └── StatisticsCollector.java # Data collection
+├── entity/
+│   ├── interfaces/             # Entity behavior interfaces
+│   ├── Animal.java            # Animal implementation
+│   └── Plant.java            # Plant implementation
+├── grid/
+│   ├── Grid.java             # Thread-safe grid environment
+│   └── Cell.java            # Cell management
+└── ui/
+    └── swing/
+        ├── components/       # UI components
+        │   ├── ControlPanel.java
+        │   └── GridPanel.java
+        ├── SimulationFrame.java
+        └── SimulationPanel.java
+```
 
 ## Requirements
 - Java Development Kit (JDK) 17 or higher
-- Maven for dependency management and build automation
-- Minimum screen resolution: 800x600
+- Maven 3.6 or higher
+- Minimum screen resolution: 1024x768
 
-## Running the Simulation
-1. Clone the repository
-2. Compile the project:
+## Building and Running
+1. Clone the repository:
    ```bash
-   mvn compile
+   git clone <repository-url>
+   cd ecosystem-simulation
    ```
+
+2. Build with Maven:
+   ```bash
+   mvn clean package
+   ```
+
 3. Run the simulation:
    ```bash
-   mvn exec:java
+   ./run.sh
+   ```
+   Or manually:
+   ```bash
+   java -jar target/ecosystem-simulation-1.0-SNAPSHOT-jar-with-dependencies.jar
    ```
 
-## Using the Simulation
+## Usage Guide
 1. **Initial Setup**:
-   - Select neighborhood type (Von Neumann/Moore) before starting
-   - Review the initial grid state
+   - Use the "Animals" and "Plants" buttons to set initial populations
+   - Adjust configuration parameters using the sliders
+   - Select neighborhood type (Von Neumann/Moore)
 
-2. **Controls**:
-   - **Start/Resume**: Begin simulation or continue from pause
-   - **Pause**: Temporarily halt for observation
-   - **Stop**: End current simulation run
-   - **Reset**: Return to initial state
-   - **Neighborhood**: Toggle between movement patterns
-   - **Configuration Sliders**: Adjust ecosystem parameters to find a stable balance
+2. **Running the Simulation**:
+   - Click "Start" to begin
+   - Use "Pause" to freeze the simulation
+   - "Stop" to end the current run
+   - "Reset" to return to initial state
 
 3. **Monitoring**:
-   - Watch entity interactions in the grid
-   - Track population statistics
-   - Observe movement patterns
-
-## Technical Details
-- Thread-safe implementation for concurrent entity processing
-- Runtime-configurable simulation parameters via sliders
-- Parameter validation with min/max constraints
-- Error handling for invalid positions and states
-- Memory-efficient cell management using `CopyOnWriteArrayList`
-
-## Future Enhancements
-- Custom grid size configuration
-- Save/load simulation states
-- Multiple species support
-- Environmental factors (temperature, resources)
-- Advanced statistics and graphs
-- Export simulation data to CSV
+   - Watch the grid for entity interactions
+   - Check statistics in the bottom panel
+   - View detailed stats using the "Show Stats" button
+   - Export data to CSV for analysis
 
 ## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
