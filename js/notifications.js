@@ -1,4 +1,4 @@
-import { notificationConfig } from './config.js';
+import { notificationConfig } from './data/projects.js';
 
 class NotificationSystem {
     constructor() {

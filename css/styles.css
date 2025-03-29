@@ -601,10 +601,10 @@ header .container {
 }
 
 .image-container {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    overflow: visible;
+    overflow: hidden;
     border: 3px solid var(--primary-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     background-color: #fff;
@@ -613,7 +613,7 @@ header .container {
 .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
 }
 
@@ -700,12 +700,43 @@ header .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 120px;
+}
+
+.contact-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px !important;
+    margin-top: -40px;
+    width: 100%;
+    max-height: 80px;
+    overflow: hidden;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.contact-logo img {
+    max-width: 120px !important;
+    max-height: 80px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.contact-logo img:hover {
+    transform: scale(1.05);
 }
 
 .contact-item {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.contact-item:first-child {
+    margin-top: 30px;
 }
 
 .contact-item i {

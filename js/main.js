@@ -1,7 +1,6 @@
-import { projectConfig } from './config.js';
+import { projectConfig, notificationConfig, projectData } from './data/projects.js';
 import notificationSystem from './notifications.js';
 import { Modal } from './components/Modal.js';
-import { projectData } from './data/projects.js';
 import apiService from './services/api.js';
 
 // ===== Business Logic =====
@@ -45,19 +44,21 @@ const businessLogic = {
     /**
      * Process form submission
      * @param {Object} formData - Form data object
+     * @param {Object} notification - Optional notification to update
      * @returns {Promise} Promise resolving to success or error message
      */
-    submitContactForm(formData) {
-        return apiService.submitContactForm(formData)
+    submitContactForm(formData, notification) {
+        return apiService.submitContactForm(formData, notification)
             .then(response => response.message);
     },
     
     /**
      * Launch the ecosystem simulation
+     * @param {Object} notification - Optional notification to update
      * @returns {Promise} Promise resolving to API response
      */
-    launchEcosystemSimulation() {
-        return apiService.launchEcosystemSimulation();
+    launchEcosystemSimulation(notification) {
+        return apiService.launchEcosystemSimulation(notification);
     }
 };
 
@@ -90,11 +91,19 @@ const uiComponents = {
      * @returns {HTMLElement} - The created link or button
      */
     createCardLink({ href, onClick, icon, text, isButton }) {
+        // Don't create link if href is null and there's no onClick handler
+        if (!href && !onClick) {
+            return null;
+        }
+
         const linkElement = isButton 
             ? this.createElement('button', { className: 'card-link' })
             : this.createElement('a', { 
                 className: 'card-link',
-                attributes: { href, target: '_blank', rel: 'noopener noreferrer' }
+                attributes: { 
+                    href: href || '#',
+                    ...(href && { target: '_blank', rel: 'noopener noreferrer' })
+                }
             });
         
         if (onClick && isButton) {
@@ -154,7 +163,7 @@ const uiComponents = {
         const links = this.createElement('div', { className: 'card-links' });
         
         // Demo link or button
-        if (project.demoLink === '#' && project.title === 'Ecosystem Simulation') {
+        if (project.title === 'Ecosystem Simulation') {
             links.appendChild(this.createCardLink({
                 onClick: () => eventHandlers.handleSimulationLaunch(),
                 icon: 'fas fa-play-circle',
@@ -168,20 +177,15 @@ const uiComponents = {
                 text: 'Overview',
                 isButton: true
             }));
-        } else if (project.demoLink === '#') {
-            links.appendChild(this.createCardLink({
-                href: project.demoLink,
-                icon: 'fas fa-play-circle',
-                text: 'Demo Coming Soon',
-                isButton: false
-            }));
         } else if (project.title === 'Caesar Cipher Encryption Tool') {
-            links.appendChild(this.createCardLink({
-                href: project.demoLink,
-                icon: 'fas fa-play-circle',
-                text: 'Try Demo',
-                isButton: false
-            }));
+            if (project.demoLink) {
+                links.appendChild(this.createCardLink({
+                    href: project.demoLink,
+                    icon: 'fas fa-play-circle',
+                    text: 'Try Demo',
+                    isButton: false
+                }));
+            }
             
             links.appendChild(this.createCardLink({
                 onClick: () => eventHandlers.handleProjectOverview('caesarCipher'),
@@ -189,7 +193,21 @@ const uiComponents = {
                 text: 'Overview',
                 isButton: true
             }));
-        } else {
+        } else if (project.title === 'Code Transformer') {
+            links.appendChild(this.createCardLink({
+                onClick: () => eventHandlers.handleCodeTransformerLaunch(),
+                icon: 'fas fa-play-circle',
+                text: 'Launch',
+                isButton: true
+            }));
+            
+            links.appendChild(this.createCardLink({
+                onClick: () => eventHandlers.handleProjectOverview('codeTransformer'),
+                icon: 'fas fa-info-circle',
+                text: 'Overview',
+                isButton: true
+            }));
+        } else if (project.demoLink) {
             links.appendChild(this.createCardLink({
                 href: project.demoLink,
                 icon: 'fas fa-play-circle',
@@ -199,7 +217,7 @@ const uiComponents = {
         }
         
         // Code link
-        if (project.codeLink !== '#') {
+        if (project.codeLink) {
             links.appendChild(this.createCardLink({
                 href: project.codeLink,
                 icon: 'fab fa-github',
@@ -290,41 +308,53 @@ const eventHandlers = {
     handleSimulationLaunch() {
         const notification = notificationSystem.show(
             'Launching simulation...',
-            'info',
-            'fas fa-spinner fa-spin'
+            'info'
         );
         
-        businessLogic.launchEcosystemSimulation()
+        apiService.launchEcosystemSimulation(notification)
             .then(data => {
                 notificationSystem.update(
                     notification,
                     data.message || 'Simulation launched successfully',
-                    'success',
-                    'fas fa-check-circle'
+                    'success'
                 );
             })
-            .catch(error => {
-                console.error('Error:', error);
+            .catch(() => {
+                // Error already handled by the API service
+            });
+    },
+    
+    /**
+     * Handle Code Transformer launch
+     */
+    handleCodeTransformerLaunch() {
+        const notification = notificationSystem.show(
+            'Launching Code Transformer...',
+            'info'
+        );
+        
+        apiService.launchCodeTransformer(notification)
+            .then(data => {
                 notificationSystem.update(
-                    notification, 
-                    'Error launching simulation', 
-                    'error', 
-                    'fas fa-exclamation-circle'
+                    notification,
+                    data.message || 'Code Transformer launched successfully',
+                    'success'
                 );
+            })
+            .catch(() => {
+                // Error already handled by the API service
             });
     },
     
     /**
      * Handle mobile menu toggle
-     * @param {Object} elements - DOM elements
      */
-    handleMobileMenuToggle(elements) {
-        if (elements.hamburger && elements.navLinks) {
-            elements.hamburger.addEventListener('click', () => {
-                elements.hamburger.classList.toggle('active');
-                elements.navLinks.classList.toggle('active');
-            });
-        }
+    handleMobileMenuToggle() {
+        const navLinks = document.querySelector('.nav-links');
+        const hamburger = document.querySelector('.hamburger');
+        
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
     },
     
     /**
@@ -374,6 +404,11 @@ const eventHandlers = {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            const notification = notificationSystem.show(
+                'Sending message...',
+                'info'
+            );
+            
             const formData = {
                 name: formElements.name.value,
                 email: formElements.email.value,
@@ -381,21 +416,17 @@ const eventHandlers = {
                 message: formElements.message.value
             };
             
-            businessLogic.submitContactForm(formData)
+            businessLogic.submitContactForm(formData, notification)
                 .then(message => {
-                    notificationSystem.show(
+                    notificationSystem.update(
+                        notification,
                         message,
-                        'success',
-                        'fas fa-check-circle'
+                        'success'
                     );
                     form.reset();
                 })
-                .catch(error => {
-                    notificationSystem.show(
-                        `Error: ${error.message}`,
-                        'error',
-                        'fas fa-exclamation-circle'
-                    );
+                .catch(() => {
+                    // Error already handled by the API service
                 });
         });
     }
@@ -441,7 +472,7 @@ function initFooter(domElements) {
  */
 function initNavigation(domElements) {
     // Mobile menu toggle
-    eventHandlers.handleMobileMenuToggle(domElements);
+    domElements.hamburger.addEventListener('click', eventHandlers.handleMobileMenuToggle);
     eventHandlers.handleMobileMenuLinks(domElements);
     
     // Smooth scrolling
@@ -492,7 +523,5 @@ function initAnimations(domElements) {
     uiComponents.setupAnimations(domElements.animatedElements);
 }
 
-// For backward compatibility
-const showEcosystemOverview = () => eventHandlers.handleProjectOverview('ecosystem');
-const showCaesarCipherOverview = () => eventHandlers.handleProjectOverview('caesarCipher');
-const launchSimulation = () => eventHandlers.handleSimulationLaunch();
+// Export only what's needed for external use
+export { businessLogic, uiComponents, eventHandlers };

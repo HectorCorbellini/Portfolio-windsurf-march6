@@ -2,6 +2,19 @@
 
 A clean, modern, and responsive portfolio website designed to showcase Java development skills, projects, and services. This portfolio features a minimalistic dark theme design optimized for both desktop and mobile devices.
 
+## Project Overview
+
+This portfolio is built with vanilla JavaScript, HTML, and CSS for the frontend, with a Node.js server to handle API requests and serve static files. The design focuses on a clean, professional appearance with smooth animations and responsive layout.
+
+### Recent Improvements
+
+- **Custom Project Placeholders**: Each project now has a unique themed image that represents its purpose and technology stack
+- **Server Optimization**: Added cache headers for static assets to improve loading performance
+- **Favicon Support**: Added a custom favicon with the portfolio owner's initial
+- **Code Cleanup**: Removed redundant files and optimized the project structure
+- **Improved Documentation**: Added contributing guidelines and expanded the README
+- **Enhanced Error Handling**: Better error messages and more stable server operation
+
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
@@ -12,7 +25,7 @@ A clean, modern, and responsive portfolio website designed to showcase Java deve
 - [Troubleshooting](#troubleshooting)
 - [Browser Compatibility](#browser-compatibility)
 - [License](#license)
-- [Recent Improvements](#recent-improvements)
+- [Contributing](#contributing)
 
 ## Features
 
@@ -214,20 +227,6 @@ This portfolio is designed to work on all modern browsers including:
 - Safari (v17+)
 - Edge (v122+)
 
-## Recent Improvements
-
-### Code Refactoring
-- The codebase has been refactored to improve organization and reduce redundancy. Utility functions have been created for modal and notification handling.
-
-### Standardized Image Paths
-- All project images now use standardized relative paths from the `/images` directory instead of placeholder URLs.
-
-### Enhanced Error Handling
-- Improved error handling in the server to provide better logging and structured error responses for API endpoints.
-
-### Updated Project Structure
-- The project structure has been updated to reflect the new organization, including the addition of images in the `/images` directory.
-
 ## License
 
 This project is available under the MIT License. See the LICENSE file for details.
@@ -237,3 +236,7 @@ This project is available under the MIT License. See the LICENSE file for detail
 Created by Héctor Corbellini for showcasing Java development skills and services.
 
 Last updated: March 2024
+
+## Contributing
+
+Contributions are welcome! If you find a bug or want to add a new feature, please open an issue or submit a pull request.

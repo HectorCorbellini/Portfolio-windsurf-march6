@@ -80,4 +80,20 @@ router.addRoute('/api/launch-ecosystem', 'POST', async (req, res) => {
     }
 });
 
+// Add Code Transformer launch route
+router.addRoute('/api/launch-code-transformer', 'POST', async (req, res) => {
+    logger('info', 'Handling API request: POST /api/launch-code-transformer');
+    
+    try {
+        // Parse request body if needed
+        const body = await parseJsonBody(req);
+        
+        // Launch the Code Transformer
+        const launchHandler = require('../projects/code-transformer/launch.js');
+        await launchHandler(req, res);
+    } catch (error) {
+        throw new ValidationError('Failed to launch Code Transformer: ' + error.message);
+    }
+});
+
 module.exports = router;

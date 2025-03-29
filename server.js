@@ -44,7 +44,18 @@ const MIME_TYPES = {
 async function serveStaticFile(req, res, filePath, contentType) {
     try {
         const content = await fs.readFile(filePath);
-        res.writeHead(200, { 'Content-Type': contentType });
+        const headers = { 'Content-Type': contentType };
+        
+        // Add cache headers for static assets to improve performance
+        const ext = path.extname(filePath);
+        if (['.css', '.js', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico'].includes(ext)) {
+            // Cache for 1 week (in seconds)
+            const cacheTime = 60 * 60 * 24 * 7;
+            headers['Cache-Control'] = `public, max-age=${cacheTime}`;
+            headers['Expires'] = new Date(Date.now() + cacheTime * 1000).toUTCString();
+        }
+        
+        res.writeHead(200, headers);
         res.end(content, 'utf-8');
     } catch (error) {
         if (error.code === 'ENOENT') {
